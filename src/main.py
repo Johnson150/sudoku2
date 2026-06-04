@@ -1,4 +1,5 @@
 from sudokuSolver import Board, SolverStats, printBoard, solveSudoku, validateBoard
+from heuristicSolver import solveSudokuHeuristic
 
 
 PUZZLES: dict[str, Board] = {
@@ -44,7 +45,13 @@ def main() -> None:
     print("\nOriginal Sudoku board:")
     printBoard(board)
 
-    if solveSudoku(board, stats):
+    # Use heuristic solver for hard puzzles
+    if difficulty == "hard":
+        solved = solveSudokuHeuristic(board, stats)
+    else:
+        solved = solveSudoku(board, stats)
+
+    if solved:
         print("\nSolved Sudoku board:")
         printBoard(board)
         print(f"\nPlacements attempted: {stats.placements}")

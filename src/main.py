@@ -1,6 +1,6 @@
 from sudokuSolver import Board, SolverStats, printBoard, solveSudoku, validateBoard
 from heuristicSolver import solveSudokuHeuristic
-
+import time
 
 PUZZLES: dict[str, Board] = {
     "easy": [
@@ -45,17 +45,25 @@ def main() -> None:
     print("\nOriginal Sudoku board:")
     printBoard(board)
 
+    #start timer
+    startTime = time.perf_counter()
+
     # Use heuristic solver for hard puzzles
     if difficulty == "hard":
         solved = solveSudokuHeuristic(board, stats)
     else:
         solved = solveSudoku(board, stats)
 
+    #stop timer
+    endTime = time.perf_counter()
+    timeTaken = endTime - startTime
+
     if solved:
         print("\nSolved Sudoku board:")
         printBoard(board)
         print(f"\nPlacements attempted: {stats.placements}")
         print(f"Backtracking steps: {stats.backtracks}")
+        print(f"Time Taken: {timeTaken:6f} seconds")
     else:
         print("\nNo valid solution exists.")
 
